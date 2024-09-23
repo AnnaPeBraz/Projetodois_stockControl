@@ -4,7 +4,12 @@
       class="flex justify-content-center align-content-center text-align-center"
     >
       <form>
-        <p-card styleClass="mt-10" header="Login" subheader="Faca seu login">
+        <p-card
+          styleClass="mt-10"
+          header="Login"
+          subheader="Faca seu login"
+          *ngIf="loginCard"
+        >
           <div
             class="flexjustify-content-center align-content-center text-align-center"
           >
@@ -20,6 +25,8 @@
           </div>
           <span
             class="flex justify-content-center align-content-center mt-3 text-red-600 font-semibold"
+            (click)="loginCard = !loginCard"
+            style="cursor: pointer;"
           >
             Criar conta
           </span>
@@ -32,6 +39,7 @@
           styleClass="mt-10"
           header="Criar Conta"
           subheader="Crie sua conta"
+          *ngIf="!loginCard"
         >
           <div
             class="flexjustify-content-center align-content-center text-align-center"
@@ -53,6 +61,8 @@
           </div>
           <span
             class="flex justify-content-center align-content-center mt-3 text-red-600 font-semibold"
+            (click)="loginCard = !loginCard"
+            style="cursor: pointer;"
           >
             Login
           </span>
