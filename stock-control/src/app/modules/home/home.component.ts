@@ -3,6 +3,8 @@ import { UserService } from './../../services/user/user.service';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SignupUserRequest } from 'src/app/models/interfaces/user/SignupUserRequest';
+import { AuthRequest } from 'src/app/models/interfaces/user/auth/AuthRequest';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-home',
@@ -24,25 +26,37 @@ export class HomeComponent {
   });
   constructor(
     private formBuilder: FormBuilder,
-    private UserService: UserService
+    private UserService: UserService,
+    private cookieService: CookieService
   ) {}
 
   onSubmitLoginForm(): void {
-    console.log('Dados do form de login', this.loginForm.value);
+    if (this.loginForm.value && this.loginForm.valid) {
+      this.UserService.authUser(this.loginForm.value as AuthRequest).subscribe({
+        next: (response) => {
+          if (response) {
+            this.cookieService.set('USER_INFO', response?.token);
+            this.loginForm.reset();
+          }
+        },
+        error: (err) => console.log(err),
+      });
+    }
   }
   onSubmitSignupForm(): void {
     if (this.signupForm.value && this.signupForm.valid) {
-      this.UserService.signupUser(this.signupForm.value as SignupUserRequest)
-        .subscribe({
-          next: (response) => {
-            if (response) {
-              alert('usuario criado');
-              this.signupForm.reset();
-              this.loginCard = true;
-            }
-          },
-          error: (err) => console.log(err),
-        })
+      this.UserService.signupUser(
+        this.signupForm.value as SignupUserRequest
+      ).subscribe({
+        next: (response) => {
+          if (response) {
+            alert('usuario criado');
+            this.signupForm.reset();
+            this.loginCard = true;
+          }
+        },
+        error: (err) => console.log(err),
+      });
     }
   }
 }
