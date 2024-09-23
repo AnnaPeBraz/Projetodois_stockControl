@@ -5,6 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { SignupUserRequest } from 'src/app/models/interfaces/user/SignupUserRequest';
 import { AuthRequest } from 'src/app/models/interfaces/user/auth/AuthRequest';
 import { CookieService } from 'ngx-cookie-service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-home',
@@ -27,7 +28,8 @@ export class HomeComponent {
   constructor(
     private formBuilder: FormBuilder,
     private UserService: UserService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private messageService: MessageService
   ) {}
 
   onSubmitLoginForm(): void {
@@ -37,9 +39,22 @@ export class HomeComponent {
           if (response) {
             this.cookieService.set('USER_INFO', response?.token);
             this.loginForm.reset();
+            this.messageService.add({
+              severity: 'success',
+              summary: 'sucesso',
+              detail: `Bem vindo de volta ${response.name}`,
+              life: 2000,
+            });
           }
         },
-        error: (err) => console.log(err),
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: `Erro ao fazer login`,
+            life: 2000,
+          });
+        },
       });
     }
   }
@@ -50,12 +65,24 @@ export class HomeComponent {
       ).subscribe({
         next: (response) => {
           if (response) {
-            alert('usuario criado');
             this.signupForm.reset();
             this.loginCard = true;
+            this.messageService.add({
+              severity: 'success',
+              summary: 'sucesso',
+              detail: `Bem vindo de volta ${response.name}`,
+              life: 2000,
+            });
           }
         },
-        error: (err) => console.log(err),
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: `Erro ao criar o usuario`,
+            life: 2000,
+          });
+        },
       });
     }
   }
