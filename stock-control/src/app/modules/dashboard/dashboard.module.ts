@@ -28,6 +28,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CardModule,
     ToastModule,
     ChartModule,
+    //shared
     SharedModule,
   ],
   providers: [MessageService, CookieService],
