@@ -4,7 +4,7 @@ import { GetAllProductsResponse } from 'src/app/models/interfaces/products/respo
 @Component({
   selector: 'app-products-table',
   templateUrl: './products-table.component.html',
-  styleUrls: ['./products-table.component.scss']
+  styleUrls: []
 })
 export class ProductsTableComponent {
   @Input() products: Array<GetAllProductsResponse> = [];
