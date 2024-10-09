@@ -3,4 +3,7 @@
 <app-products-table
   [products]="productsDatas"
   (productEvent)="handleProductAction($event)"
-></app-products-table>
+  (deleteProductEvent)="handleDeleteProductAction($event)"
+  >
+</app-products-table>
+<p-confirmDialog [style]="{width: '50v'}"></p-confirmDialog>
