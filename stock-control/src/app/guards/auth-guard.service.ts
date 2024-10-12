@@ -1,6 +1,6 @@
-import { Router, UrlTree } from '@angular/router';
-import { UserService } from './../services/user/user.service';
 import { Injectable } from '@angular/core';
+import { UserService } from '../services/user/user.service';
+import { Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -18,6 +18,7 @@ export class AuthGuard {
       this.router.navigate(['/home']);
       return false;
     }
+
     this.userService.isLoggedIn();
     return true;
   }

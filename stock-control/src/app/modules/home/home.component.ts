@@ -1,9 +1,8 @@
-import { Response } from 'express';
-import { UserService } from './../../services/user/user.service';
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SignupUserRequest } from 'src/app/models/interfaces/user/SignupUserRequest';
 import { AuthRequest } from 'src/app/models/interfaces/user/auth/AuthRequest';
+import { UserService } from 'src/app/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
@@ -14,7 +13,7 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnDestroy{
+export class HomeComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
   loginCard = true;
 
@@ -28,9 +27,10 @@ export class HomeComponent implements OnDestroy{
     email: ['', Validators.required],
     password: ['', Validators.required],
   });
+
   constructor(
     private formBuilder: FormBuilder,
-    private UserService: UserService,
+    private userService: UserService,
     private cookieService: CookieService,
     private messageService: MessageService,
     private router: Router
@@ -38,7 +38,8 @@ export class HomeComponent implements OnDestroy{
 
   onSubmitLoginForm(): void {
     if (this.loginForm.value && this.loginForm.valid) {
-      this.UserService.authUser(this.loginForm.value as AuthRequest)
+      this.userService
+        .authUser(this.loginForm.value as AuthRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
@@ -46,10 +47,11 @@ export class HomeComponent implements OnDestroy{
               this.cookieService.set('USER_INFO', response?.token);
               this.loginForm.reset();
               this.router.navigate(['/dashboard']);
+
               this.messageService.add({
                 severity: 'success',
-                summary: 'sucesso',
-                detail: `Bem vindo de volta ${response.name}`,
+                summary: 'Sucesso',
+                detail: `Bem vindo de volta ${response?.name}!`,
                 life: 2000,
               });
             }
@@ -58,16 +60,19 @@ export class HomeComponent implements OnDestroy{
             this.messageService.add({
               severity: 'error',
               summary: 'Erro',
-              detail: `Erro ao fazer login`,
+              detail: `Erro ao fazer o login!`,
               life: 2000,
             });
+            console.log(err);
           },
         });
     }
   }
+
   onSubmitSignupForm(): void {
     if (this.signupForm.value && this.signupForm.valid) {
-      this.UserService.signupUser(this.signupForm.value as SignupUserRequest)
+      this.userService
+        .signupUser(this.signupForm.value as SignupUserRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
@@ -76,8 +81,8 @@ export class HomeComponent implements OnDestroy{
               this.loginCard = true;
               this.messageService.add({
                 severity: 'success',
-                summary: 'sucesso',
-                detail: `Bem vindo de volta ${response.name}`,
+                summary: 'Sucesso',
+                detail: 'Usuário criado com sucesso!',
                 life: 2000,
               });
             }
@@ -86,9 +91,10 @@ export class HomeComponent implements OnDestroy{
             this.messageService.add({
               severity: 'error',
               summary: 'Erro',
-              detail: `Erro ao criar o usuario`,
+              detail: `Erro ao criar usuário!`,
               life: 2000,
             });
+            console.log(err);
           },
         });
     }

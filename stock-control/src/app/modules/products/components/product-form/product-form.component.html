@@ -1,24 +1,28 @@
-<!-- Formulario novo producto -->
-
+<!-- FORMULÁRIO DE NOVO PRODUTO -->
 <div *ngIf="productAction?.event?.action === addProductAction">
   <form [formGroup]="addProductForm" (ngSubmit)="handleSubmitAddProduct()">
     <div class="card flex flex-column md:flex-column gap-3">
+      <!-- Nome do produto -->
       <input pInputText placeholder="Nome" formControlName="name" />
+      <!-- Categoria do produto -->
       <p-dropdown
         styleClass="w-full"
         [options]="categoriesData"
         [(ngModel)]="selectedCategory"
         optionLabel="name"
         optionValue="id"
-        placeholder="Selecione uma Categoria"
+        placeholder="Selecione uma categoria"
         formControlName="category_id"
       ></p-dropdown>
-      <input pInputText placeholder="Preco" formControlName="price" />
-      <input pInputText placeholder="Descricao" formControlName="description" />
-      <input pInputNumber placeholder="Quantidade" formControlName="amount" />
+      <!-- Preço do produto -->
+      <input pInputText placeholder="Preço" formControlName="price" />
+      <!-- Descrição do produto -->
+      <input pInputText placeholder="Descrição" formControlName="description" />
+      <!-- Quantidade do produto -->
+      <input pInputText placeholder="Quantidade" formControlName="amount" />
 
       <div
-        class="flex flex-row justify-content-center align-content-center align-itens-center m-1"
+        class="flex flex-row justify-content-center align-content-center align-items-center m-1"
       >
         <p-button
           [disabled]="!addProductForm.valid"
@@ -30,22 +34,22 @@
   </form>
 </div>
 
-<!-- Formulario edit produto -->
-
+<!-- FORMULÁRIO DE EDITAR PRODUTO -->
 <div *ngIf="productAction?.event?.action === editProductAction">
   <form [formGroup]="editProductForm" (ngSubmit)="handleSubmitEditProduct()">
     <div class="card flex flex-column md:flex-column gap-3">
       <input pInputText placeholder="Nome" formControlName="name" />
-      <input pInputText placeholder="Preco" formControlName="price" />
-      <input pInputText placeholder="Descricao" formControlName="description" />
+      <input pInputText placeholder="Preço" formControlName="price" />
+      <input pInputText placeholder="Descrição" formControlName="description" />
       <input
         pInputText
         type="number"
         placeholder="Quantidade"
         formControlName="amount"
       />
+
       <div
-        class="flex flex-row justify-content-center align-content-center align-itens-center"
+        class="flex flex-row justify-content-center align-content-center align-items-center"
       >
         <p-button
           [disabled]="!editProductForm.valid"
