@@ -1,11 +1,11 @@
-import { DeleteProductResponse } from './../../models/interfaces/products/response/DeleteProductsResponse';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { map, Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { CreateProductRequest } from 'src/app/models/interfaces/products/request/CreateProductRequest';
 import { EditProductRequest } from 'src/app/models/interfaces/products/request/EditProductRequest';
 import { CreateProductResponse } from 'src/app/models/interfaces/products/response/CreateProductResponse';
+import { DeleteProductResponse } from 'src/app/models/interfaces/products/response/DeleteProductsResponse';
 import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
 import { environment } from 'src/environments/environment';
 
@@ -21,6 +21,7 @@ export class ProductsService {
       Authorization: `Bearer ${this.JWT_TOKEN}`,
     }),
   };
+
   constructor(private http: HttpClient, private cookie: CookieService) {}
 
   getAllProducts(): Observable<Array<GetAllProductsResponse>> {
@@ -34,7 +35,7 @@ export class ProductsService {
 
   deleteProduct(product_id: string): Observable<DeleteProductResponse> {
     return this.http.delete<DeleteProductResponse>(
-      `${this.API_URL}/product/delete`,
+      `${this.API_URL}/products/delete`,
       {
         ...this.httpOptions,
         params: {
@@ -48,7 +49,7 @@ export class ProductsService {
     requestDatas: CreateProductRequest
   ): Observable<CreateProductResponse> {
     return this.http.post<CreateProductResponse>(
-      `${this.API_URL}/product`,
+      `${this.API_URL}/products`,
       requestDatas,
       this.httpOptions
     );

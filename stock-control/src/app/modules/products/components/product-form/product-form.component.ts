@@ -12,6 +12,8 @@ import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { EventAction } from 'src/app/models/interfaces/products/event/EventAction';
 import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
 import { ProductsDataTransferService } from 'src/app/shared/services/products/products-data-transfer.service';
+import { ProductEvent } from 'src/app/models/enums/products/productEvent';
+import { EditProductRequest } from 'src/app/models/interfaces/products/request/EditProductRequest';
 
 @Component({
   selector: 'app-product-form',
@@ -40,7 +42,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     productDatas: Array<GetAllProductsResponse>;
   };
   public productSelectedDatas!: GetAllProductsResponse;
-  public productsDatas: Array<GetAllProductsResponse> =[];
+  public productsDatas: Array<GetAllProductsResponse> = [];
+  public addProductAction = ProductEvent.ADD_PRODUCT_EVENT;
+  public editProductAction = ProductEvent.EDIT_PRODUCT_EVENT;
+  public saleProductAction = ProductEvent.SALE_PRODUCT_EVENT;
 
   constructor(
     private categoriesServices: CategoriesService,
@@ -49,12 +54,23 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private messageService: MessageService,
     private router: Router,
-    public ref: DynamicDialogConfig,
-    
+    public ref: DynamicDialogConfig
   ) {}
 
   ngOnInit(): void {
     this.productAction = this.ref.data;
+
+    if (
+      (this,
+      this.productAction?.event?.action === this.editProductAction &&
+        this.productAction?.productDatas)
+    ) {
+      this.getProductSelectedDatas(this.productAction?.event?.id as string);
+    }
+
+    if (this.productAction?.event?.action === this.saleProductAction) {
+      this.getProductDatas();
+    }
     this.getAllCategories();
   }
 
@@ -111,8 +127,43 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   handleSubmitEditProduct(): void {
-    // if (this.editProductForm.value && this.editProductForm.valid){
-    // }
+    if (
+      this.editProductForm.value &&
+      this.editProductForm.valid &&
+      this.productAction.event.id
+    ) {
+      const requestEditProduct: EditProductRequest = {
+        name: this.editProductForm.value.name as string,
+        price: this.editProductForm.value.price as string,
+        description: this.editProductForm.value.description as string,
+        product_id: this.productAction?.event?.id,
+        amount: this.editProductForm.value.amount as number,
+      };
+
+      this.productsService
+        .editProduct(requestEditProduct)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Produto editado com sucesso',
+              life: 2500,
+            });
+            this.editProductForm.reset();
+          },
+          error: (err) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Erro ao editar produto',
+              life: 2500,
+            });
+            this.editProductForm.reset();
+          },
+        });
+    }
   }
 
   getProductSelectedDatas(productId: string): void {
@@ -129,20 +180,24 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           price: this.productSelectedDatas?.price,
           amount: this.productSelectedDatas?.amount,
           description: this.productSelectedDatas?.description,
-        })
+        });
       }
     }
   }
 
   getProductDatas(): void {
-    this.productsService.getAllProducts().pipe(takeUntil(this.destroy$)).subscribe({
-      next: (response) => {
-        if (response.length > 0) {
-          this.productsDatas = response;
-          this.productsDatas && this.productsDtService.setProductsDatas(this.productsDatas);
-        }
-      },
-    });
+    this.productsService
+      .getAllProducts()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.length > 0) {
+            this.productsDatas = response;
+            this.productsDatas &&
+              this.productsDtService.setProductsDatas(this.productsDatas);
+          }
+        },
+      });
   }
 
   ngOnDestroy(): void {

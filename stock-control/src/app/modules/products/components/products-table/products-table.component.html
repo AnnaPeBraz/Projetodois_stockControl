@@ -136,7 +136,7 @@
           <tr>
             <td>{{ product?.name }}</td>
             <td>{{ product?.amount }}</td>
-            <td>{{ product?.price | currency : "BRL" }}</td>
+            <td>{{ +product?.price | currency : "BRL" }}</td>
             <td [pTooltip]="product?.description" tooltipPosition="top">
               {{ product.description }}
             </td>
