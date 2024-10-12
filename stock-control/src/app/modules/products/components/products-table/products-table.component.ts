@@ -7,7 +7,7 @@ import { GetAllProductsResponse } from 'src/app/models/interfaces/products/respo
 @Component({
   selector: 'app-products-table',
   templateUrl: './products-table.component.html',
-  styleUrls: []
+  styleUrls: [],
 })
 export class ProductsTableComponent {
   @Input() products: Array<GetAllProductsResponse> = [];
@@ -17,21 +17,20 @@ export class ProductsTableComponent {
   public productSelected!: GetAllProductsResponse;
   public addProductEvent = ProductEvent.ADD_PRODUCT_EVENT;
   public editProductEvent = ProductEvent.EDIT_PRODUCT_EVENT;
-  
+
   handleProductEvent(action: string, id?: string): void {
     if (action && action !== '') {
-      const productEventData = id && id !== ''? {action, id} : {action};
+      const productEventData = id && id !== '' ? { action, id } : { action };
       this.productEvent.emit(productEventData);
     }
   }
 
-  handleDeleteProduct(product_id: string, productName: string): void{
-    if (product_id !== '' && productName !== ''){
-      this,this.deleteProductEvent.emit({
+  handleDeleteProduct(product_id: string, productName: string): void {
+    if (product_id !== '' && productName !== '') {
+      this.deleteProductEvent.emit({
         product_id,
         productName,
-      })
+      });
     }
   }
-
 }

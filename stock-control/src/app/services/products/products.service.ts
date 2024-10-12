@@ -35,7 +35,7 @@ export class ProductsService {
 
   deleteProduct(product_id: string): Observable<DeleteProductResponse> {
     return this.http.delete<DeleteProductResponse>(
-      `${this.API_URL}/products/delete`,
+      `${this.API_URL}/product/delete`,
       {
         ...this.httpOptions,
         params: {
@@ -49,7 +49,7 @@ export class ProductsService {
     requestDatas: CreateProductRequest
   ): Observable<CreateProductResponse> {
     return this.http.post<CreateProductResponse>(
-      `${this.API_URL}/products`,
+      `${this.API_URL}/product`,
       requestDatas,
       this.httpOptions
     );
