@@ -1,1 +1,4 @@
-<app-categories-table [categories]="categoriesDatas"></app-categories-table>
+<app-categories-table
+  [categories]="categoriesDatas"
+  (deleteCategoryEvent)="handleDeleteCategoryAction($event)"
+></app-categories-table>

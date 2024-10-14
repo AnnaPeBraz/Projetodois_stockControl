@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { GetCategoriesResponse } from 'src/app/models/interfaces/categories/responses/GetCategoriesResponse';
 import { environment } from 'src/environments/environment';
+import { __param } from 'tslib';
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +26,14 @@ export class CategoriesService {
       `${this.API_URL}/categories`,
       this.httpOptions
     );
+  }
+
+  deleteCategory(requestDatas: { category_id: string }): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/category/delete`, {
+      ...this.httpOptions,
+      params: {
+        category_id: requestDatas?.category_id,
+      },
+    });
   }
 }
