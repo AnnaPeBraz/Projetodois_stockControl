@@ -22,9 +22,10 @@ import { CategoriesTableComponent } from './components/categories-table/categori
 import { CATEGORIES_ROUTES } from './categories.routing';
 import { SharedModule } from 'primeng/api';
 import { CategoriesHomeComponent } from './page/categories-home/categories-home.component';
+import { CategoryFormComponent } from './components/category-form/category-form.component';
 
 @NgModule({
-  declarations: [CategoriesHomeComponent, CategoriesTableComponent],
+  declarations: [CategoriesHomeComponent, CategoriesTableComponent, CategoryFormComponent],
   imports: [
     CommonModule,
     FormsModule,
