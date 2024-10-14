@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CategoriesHomeComponent } from './page/categories-home/categories-home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CATEGORIES_ROUTES } from './categories.routing';
-import { ConfirmationService, SharedModule } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
+
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
@@ -18,9 +16,15 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { ConfirmationService } from 'primeng/api';
+
+import { CategoriesTableComponent } from './components/categories-table/categories-table.component';
+import { CATEGORIES_ROUTES } from './categories.routing';
+import { SharedModule } from 'primeng/api';
+import { CategoriesHomeComponent } from './page/categories-home/categories-home.component';
 
 @NgModule({
-  declarations: [CategoriesHomeComponent],
+  declarations: [CategoriesHomeComponent, CategoriesTableComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -28,6 +32,7 @@ import { TooltipModule } from 'primeng/tooltip';
     RouterModule.forChild(CATEGORIES_ROUTES),
     SharedModule,
     HttpClientModule,
+
     CardModule,
     ButtonModule,
     TableModule,
@@ -40,7 +45,7 @@ import { TooltipModule } from 'primeng/tooltip';
     DropdownModule,
     ConfirmDialogModule,
     TooltipModule,
-  ],
-  providers:[DialogService, ConfirmationService]
+],
+  providers:[DialogService, ConfirmationService ]
 })
 export class CategoriesModule {}
