@@ -42,6 +42,8 @@
                   styleClass="p-button-info"
                   icon="pi pi-plus"
                   label="Adicionar"
+                  pTooltip="Adicionar Categoria"
+
                   (onClick)="handleCategoryEvent(addCategoryAction)"
                 ></p-button>
               </div>
@@ -61,14 +63,26 @@
                   pButton
                   pRipple
                   icon="pi pi-pencil"
+                  pTooltip="Editar Categoria"
+                  tooltipPosition="top"
                   class="p-button-rounded p-button-warning"
+                  (click)="
+                    handleCategoryEvent(
+                      editCategoryAction,
+                      category?.id,
+                      category?.name
+                    )
+                  "
                 ></button>
                 <button
                   pButton
                   pRipple
                   icon="pi pi-trash"
+                  pTooltip="Remover Categoria" 
                   class="p-button-rounded p-button-danger"
-                  (click)="handleDeleteCategoryEvent(category?.id, category?.name)"
+                  (click)="
+                    handleDeleteCategoryEvent(category?.id, category?.name)
+                  "
                 ></button>
               </div>
             </td>
@@ -77,5 +91,5 @@
       </p-table>
     </p-card>
   </div>
-  <p-confirmDialog [style]="{ width: '50vw'}"></p-confirmDialog>
+  <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
 </div>
