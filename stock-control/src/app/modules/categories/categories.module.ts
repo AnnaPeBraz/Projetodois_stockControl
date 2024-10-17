@@ -18,10 +18,10 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmationService } from 'primeng/api';
 
-import { CategoriesTableComponent } from './components/categories-table/categories-table.component';
-import { CATEGORIES_ROUTES } from './categories.routing';
-import { SharedModule } from 'primeng/api';
 import { CategoriesHomeComponent } from './page/categories-home/categories-home.component';
+import { CATEGORIES_ROUTES } from './categories.routing';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CategoriesTableComponent } from './components/categories-table/categories-table.component';
 import { CategoryFormComponent } from './components/category-form/category-form.component';
 
 @NgModule({
@@ -33,7 +33,7 @@ import { CategoryFormComponent } from './components/category-form/category-form.
     RouterModule.forChild(CATEGORIES_ROUTES),
     SharedModule,
     HttpClientModule,
-
+    // PrimeNg
     CardModule,
     ButtonModule,
     TableModule,
@@ -46,7 +46,7 @@ import { CategoryFormComponent } from './components/category-form/category-form.
     DropdownModule,
     ConfirmDialogModule,
     TooltipModule,
-],
-  providers:[DialogService, ConfirmationService ]
+  ],
+  providers: [DialogService, ConfirmationService],
 })
 export class CategoriesModule {}
